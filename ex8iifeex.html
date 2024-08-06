@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+<!-- 성적 관리 -->
+ 이름 : <input type="text" v-model="irum"><br/>
+ 자바 : <input type="text" v-model.number="java"><br/>
+ 리액트 : <input type="text" v-model.number="react"><br/>
+ 뷰 : <input type="text" v-model.number="vue"><br/>
+
+ <button @click="myFunc">클릭</button>
+ <!-- 입력 결과 -->
+ <ul>
+    <li v-for="(su, index) in jumsu" :key="index">{{su.irum}}: {{su.java}},{{su.react}},{{su.vue}} 총점:{{sum}}</li>
+</ul>
+</div>
+
+
+   
+
+
+
+ 
+<!-- 각 뷰 인스턴스를 js 파일로 작성 후 연결 -->
+<script src="ex8ex1.js"></script>
+
+
+
+</body>
+</html>

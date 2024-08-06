@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+<div id="app">
+    <h2>성적 관리</h2>
+    이름: <input type="text" v-model="name"/><br/> 
+    자바: <input type="text" v-model.number="java" value="0"/><br/>
+    리액트: <input type="text" v-model.number="react" value="0"/><br/>
+    뷰: <input type="text" v-model.number="vue" value="0"/>
+    <br/><br/>
+    <button @click="onClick">확인</button>
+
+    <br/><br/>
+
+    <h2>입력 결과</h2>
+    <ul>
+        <div v-if="count >=1">
+        <li v-for="(item, index) in student" :key="index">
+            {{item.name}}:{{item.java}}, {{item.react}}, {{item.vue}} 총점:{{item.num}}
+        </li>
+        </div>
+    </ul>
+
+    <br/><br/>
+
+    <h2>전체 통계</h2>
+        인원수: {{count}} 전체 총점 {{final}}
+</div>
+<script src="ex08js1.js"></script>
+</body>
+</html>
