@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- jQuery 라이브러리 로딩 :  CDN -->
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("#msg").text("jQuery로 메세지 출력");
+      });
+    </script>
+
+    <!-- vue3 라이브러리 로딩 :  CDN  -->
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    환영합니다.<br />
+    jquery 출력 결과 : <span id="msg"></span>
+    <hr />
+    vue 출력1 :
+    <!--데이터 바인딩의 기본 형태는 {{}}-->
+    <span id="app1">{{msg}}</span>
+    <!--MVVN 패턴에서 View-->
+    <!--텍스트 보간법 : 기본 문자열 - Mustache (이중 중괄호) 사용-->
+    <script>
+      let hi = { msg: "뷰 세계 방문합니다~" }; // 데이터 객체 정의. MVVN 패턴에서 Model(리턴하는 부분)
+      Vue.createApp({
+        // MVVN 패턴에서 ViewModel
+        // Vue.createApp()에 의해 생성된 객체를 어플리케이션 인스턴스라고 함.
+        data() {
+          return hi;
+        },
+      }).mount("#app1"); // id="app1" 요소에 마운트(DOM 요소에 연결 - 렌더링)
+    </script>
+
+    <hr />
+    vue 출력2 :
+    <div id="app2">
+      {{message1}}&nbsp;{{message2}}&nbsp;{{message3}}
+      <br />
+      <button @click="updateMessage">메세지 변경</button>
+    </div>
+    <script>
+      // Vue3는 Vue2와 달리 생성자가 아니라 createApp 함수를 이용해 어플리케이션을 인스턴스함
+      const { createApp } = Vue;
+      createApp({
+        data() {
+          return {
+            message1: "안녕 자두야",
+            message2: "반가워" + "할만하니?",
+            message3: Math.random() * 9,
+          };
+        },
+        // 라이프사이클 관련 메소드 일부 확인
+        // 메소드 내에서 실행되는 custom logic을 cycle hook 이라고 한다.
+        beforeCreate() {
+          //초기화
+          console.log(
+            "beforeCreate :  인스턴스가 생성되고 나서 가장 처음으로 실행되는 라이프 사이클"
+          );
+        },
+        created() {
+          // 화면에 반응성 주입
+          console.log(
+            "created :  아직 화면 요소에 인스턴스가 부착되기 전이기 때문에 template 속성에 정의된 돔 요소에 접근하는 코드 구현 불가"
+          );
+        },
+        mounted() {
+          // 속성값 데이터
+          console.log(
+            "mounted : el 속성에서 지정한 화면 요소에 인스턴스가 부착되고 난 후 호출되는 단계"
+          );
+        },
+        beforeUpdate() {
+          //인스턴스의 데이터 변경
+          console.log(
+            "beforeUpdate : el 속성에서 지정한 화면 요소에 인스턴스가 부착되고 난 후에 인스턴스 속성들이 화면에 치환됨"
+          );
+        },
+        updated() {
+          console.log(
+            "updated : beforeUpdate가 끝나고 화면에 다시 그리고 나면 실행되는 단계"
+          );
+        },
+        methods: {
+          updateMessage() {
+            this.message1 = "Hello";
+            this.message2 = "World";
+            this.message3 = Math.random() * 90;
+          },
+        },
+      }).mount("#app2");
+    </script>
+  </body>
+</html>
