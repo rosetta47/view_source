@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.prod.js"></script>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+      // 차트와 관련 스크립트
+      let datas = [
+        ["도시락", 3],
+        ["김밥", 6],
+        ["햄버거", 2],
+        ["피자", 1],
+        ["도넛", 10],
+      ];
+
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawFunc);
+
+      function drawFunc() {
+        let data = google.visualization.arrayToDataTable([
+          ["종류", "갯수"],
+          ...datas,
+          // 이차원 배열로 들어감 [ ['도시락', 3],['김밥', 6],['햄버거', 2],['피자', 1],['도넛', 10]]
+        ]);
+        let options = { title: "먹고 싶은 음식", is3D: true };
+        let chart = new google.visualization.PieChart(
+          document.querySelector("#chart_div")
+        );
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <h2>구글 차트(원 그래프) 그리기</h2>
+    메뉴 선택<br />
+    <div id="chart_div" style="height: 500px"></div>
+
+    <div id="app">
+      <!--차트를 그릴꺼임-->
+      <li v-for="(value, index) in dataArray" :key="index">
+        {{value[0]}} : {{value[1]}}
+        <button @click="addOneFunc(index)">1 증가</button>&nbsp;
+        <button @click="subOneFunc(index)">1 감소</button>
+      </li>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+      createApp({
+        data() {
+          return {
+            dataArray: datas,
+          };
+        },
+        methods: {
+          addOneFunc(index) {
+            this.dataArray[index][1]++;
+            this.updateChart(); // 차트가 업데이트되면 다시 그릴려고 함수 만들어서 함
+          // drawFunc();
+          },
+
+          subOneFunc(index) {
+            if (this.dataArray[index][1] > 0) {
+              this.dataArray[index][1]--;
+              this.updateChart();
+            //  drawFunc();
+            }
+          },
+        
+          updateChart() {
+            drawFunc();
+          },
+         
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

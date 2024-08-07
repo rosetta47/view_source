@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vueEx/ex14EX.html</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+      body {
+        text-align: center;
+      }
+      table {
+        width: 70%;
+        padding-left: 30%;
+      }
+      th {
+        background-color: deeppink;
+        color: white;
+        padding: 4px;
+      }
+      button {
+        border-radius: 10px;
+        padding: 5px;
+        background-color: deeppink;
+        border: none;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>🍥 직원 검색</h2>
+    <div id="app">
+      <input type="text" placeholder="직급 검색" v-model="jik" />&ensp;
+      <button @click="inputCheck">확인</button>
+      <table v-if="jikwon.length > 0">
+        <thead>
+          <tr>
+            <th>사번</th>
+            <th>이름</th>
+            <th>부서명</th>
+            <th>직급</th>
+            <th>연봉</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(j, index) in jikwon" :key="index">
+            <td>{{j.no}}</td>
+            <td>{{j.name}}</td>
+            <td>{{j.bname}}</td>
+            <td>{{j.jik}}</td>
+            <td>{{j.pay}}</td>
+          </tr>
+          <tr>
+            <td colspan="2">인원수</td>
+            <td colspan="3">{{jikwon.length}}</td>
+          </tr>
+          <tr>
+            <td colspan="2">연봉 평균</td>
+            <td colspan="3">{{avgPay}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      createApp({
+        data() {
+          return {
+            jikwon: [],
+            jik: "",
+            avgPay: 0,
+          };
+        },
+        methods: {
+          inputCheck() {
+            if (this.jik === "") {
+              alert("직급을 입력해 주세요");
+              return;
+            }
+            this.jikwonFunc();
+          },
+          jikwonFunc() {
+            axios
+              .get("http://localhost/jikwon/" + this.jik)
+              .then((data) => {
+                this.jikwon = data.data;
+                this.avgPay = this.jikwon.reduce((result, jd) => {
+                  return (result += parseInt(jd.pay));
+                }, 0);
+              })
+              .catch((err) => {
+                console.log("ERROR : ", err);
+              });
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
