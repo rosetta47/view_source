@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <h2>todo리스트</h2>
+    <div id="app">
+    <div v-for="todo in todos">
+        <label>
+            <input type="checkbox" v-model="todo.done">
+            <span v-bind:class="{donestyle:todo.done}">{{todo.text}}</span>
+        </label>
+    </div>
+
+    <!-- 추가 삭제 기능-->
+     <input type="text" v-model="addtext" v-on:keyup.enter="addToDo" placeholder="할일">
+     <p><button v-on:click="cleanTodo>">처리완료삭제</button></p>
+    <p>{{remaining}} / {{todos.length}}건 처리</p>
+</div>
+
+<style>
+    .donestyle{
+        text-decoration: line-through;
+        color: lightgray;
+    }
+</style>
+<script>
+      const { createApp } = Vue;
+      createApp({
+        data () {
+            return{
+                addtext:'',
+                todos: [
+                    {done:false, text:'빵사기'},
+                    {done:false, text:'망고스무디'},
+                ]
+            }
+        },
+        computed:{
+            remaining (){
+                return this.todos.filter(function(val){
+                    return val.done == true;
+                }).length;
+            }
+        },
+        methods: {
+            addToDo (){
+                if(this.addtext){
+                    this.todos.push({done:false, text:this.addtext});
+                    this.addtext='';
+                }
+            },
+            cleanToDo (){
+                this.todos = this.todos.filter(function(val){
+                    return val.done == false;
+                })
+            }
+        },
+    }).mount('#app')
+</script>
+</body>
+</html>

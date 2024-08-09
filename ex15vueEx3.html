@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="fetchWeather">강남 지역 날씨정보 얻기</button>
+      <div v-if="weather">
+        <h2>날씨 정보</h2>
+        <p>예보 시간 : {{weather.time}}</p>
+        <p>온도 : {{weather.temperature}}℃</p>
+        <p>풍속 : {{weather.windspeed}}km/h</p>
+        <p>풍향 : {{weather.winddirection}}°</p>
+
+      </div>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            weather: null,
+          };
+        },
+        methods: {
+          fetchWeather() {
+            fetch(
+              "https://api.open-meteo.com/v1/forecast?latitude=37.5172&longitude=127.0473&current_weather=true"
+            )
+              .then(response => response.json())
+              .then((data) => {
+                this.weather = data.current_weather;
+              })
+              .catch((error) => {
+                console.error('Error fetching weather data:', error);
+              });
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

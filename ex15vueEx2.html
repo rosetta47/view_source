@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+<div id="app">
+    이름은 <input type="text" v-model="message" /> {{message}} <br />
+</div>
+<script>
+     const {createApp} = Vue;
+     createApp({
+        data(){
+            return{
+                 message: '안녕 보현!'
+            }
+        },
+        methods: {
+           
+        },
+    }
+    ).mount('#app')
+
+</script>
+</body>
+</html>
